@@ -2,7 +2,7 @@ if (process.env.USE_DOT_ENV === 'true') {
   require('dotenv').config();
 }
 
-const { App } = require('@slack/bolt');
+import { App } from '@slack/bolt';
 
 // Initializes your app with your bot token and signing secret
 const app = new App({
@@ -11,7 +11,7 @@ const app = new App({
 });
 
 // Listens to incoming messages that contain "hello"
-app.message('hello', async ({ message, say }) => {
+app.message('hello', async ({ say }) => {
   // say() sends a message to the channel where the event was triggered
   await say({
     blocks: [
@@ -19,7 +19,7 @@ app.message('hello', async ({ message, say }) => {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `Hey there <@${message.user}>!`,
+          text: `Hey there!`,
         },
         accessory: {
           type: 'button',
@@ -31,9 +31,10 @@ app.message('hello', async ({ message, say }) => {
         },
       },
     ],
-    text: `Hey there <@${message.user}>!`,
+    text: `Hey there!`,
   });
 });
+
 app.action('button_click', async ({ body, ack, say }) => {
   // Acknowledge the action
   await ack();
@@ -41,8 +42,7 @@ app.action('button_click', async ({ body, ack, say }) => {
 });
 
 (async () => {
-  // Start your app
-  await app.start(process.env.PORT || 3000);
+  await app.start(Number.parseInt(process.env.PORT || '3000'));
 
   console.log('⚡️ Bolt app is running!');
 })();
