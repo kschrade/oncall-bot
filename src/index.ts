@@ -62,6 +62,17 @@ app.event('app_mention', async (event) => {
           type: 'section',
           text: {
             type: 'mrkdwn',
+            text: `message - ${JSON.stringify(
+              await event.client.channels.info({
+                channel: event.body.event.channel,
+              }),
+            )}`,
+          },
+        },
+        {
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
             text: `\`WhosOnCall\` - tell you who's on call!`,
           },
         },
