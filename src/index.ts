@@ -33,10 +33,25 @@ app.message('hello', async ({ say }) => {
   });
 });
 
-app.event('app_mention', async (event) => {
-  await event.say({
-    text: `Hey there! Give me a command or see all my commands with "!help"`,
-  });
+app.event<string>('app_mention', async (event) => {
+  if (event.message === '!help') {
+    event.say({
+      blocks: [
+        {
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: `\`WhosOnCall\` - tell you who's on call!`,
+          },
+        },
+      ],
+      text: `Here are all our commands!`,
+    });
+  } else {
+    await event.say({
+      text: `Hey there! Give me a command or see all my commands with "!help"`,
+    });
+  }
 });
 
 app.action('button_click', async ({ body, ack, say }) => {
