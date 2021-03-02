@@ -33,9 +33,14 @@ app.message('hello', async ({ say }) => {
   });
 });
 
+app.command('/oncall', async ({ command, ack, say }) => {
+  await ack();
+  await say(command.text);
+});
+
 app.event('app_mention', async (event) => {
   if (event.body.event.text.indexOf('!help') >= 0) {
-    event.say({
+    await event.say({
       blocks: [
         {
           type: 'section',
@@ -55,29 +60,26 @@ app.event('app_mention', async (event) => {
           type: 'section',
           text: {
             type: 'mrkdwn',
-            text: `message - ${JSON.stringify(event.message)}`,
-          },
-        },
-        {
-          type: 'section',
-          text: {
-            type: 'mrkdwn',
-            text: `message - ${JSON.stringify(
-              await event.client.channels.info({
-                channel: event.body.event.channel,
-              }),
-            )}`,
-          },
-        },
-        {
-          type: 'section',
-          text: {
-            type: 'mrkdwn',
             text: `\`WhosOnCall\` - tell you who's on call!`,
           },
         },
       ],
       text: `Here are all our commands!`,
+    });
+
+    const res = await event.client.channels
+      .info({
+        channel: event.body.event.channel,
+      })
+      .catch((e) => {
+        event.say({
+          text: JSON.stringify(e),
+        });
+        return 'An error occurred';
+      });
+
+    event.say({
+      text: JSON.stringify(res),
     });
   } else {
     await event.say({
