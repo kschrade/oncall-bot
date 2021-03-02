@@ -41,7 +41,21 @@ app.event('app_mention', async (event) => {
           type: 'section',
           text: {
             type: 'mrkdwn',
-            text: `${JSON.stringify(event.body)}`,
+            text: `body - ${JSON.stringify(event.body)}`,
+          },
+        },
+        {
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: `context - ${JSON.stringify(event.context)}`,
+          },
+        },
+        {
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: `message - ${JSON.stringify(event.message)}`,
           },
         },
         {
