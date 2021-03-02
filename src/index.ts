@@ -70,6 +70,7 @@ app.event('app_mention', async (event) => {
     const res = await event.client.channels
       .info({
         channel: event.body.event.channel,
+        token: event.body.token,
       })
       .catch((e) => {
         event.say({
