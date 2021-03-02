@@ -41,6 +41,13 @@ app.event('app_mention', async (event) => {
           type: 'section',
           text: {
             type: 'mrkdwn',
+            text: `${JSON.stringify(event)}`,
+          },
+        },
+        {
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
             text: `\`WhosOnCall\` - tell you who's on call!`,
           },
         },
