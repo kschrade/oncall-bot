@@ -33,8 +33,8 @@ app.message('hello', async ({ say }) => {
   });
 });
 
-app.event<string>('app_mention', async (event) => {
-  if (event.message === '!help') {
+app.event('app_mention', async (event) => {
+  if (event.body.event.text.indexOf('!help') >= 0) {
     event.say({
       blocks: [
         {
